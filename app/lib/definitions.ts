@@ -26,6 +26,18 @@ export type Invoice = {
   status: 'pending' | 'paid';
 };
 
+export type NewestInvoiceInput = {
+  customer_id: string;
+  amount: number;
+  status: 'pending' | 'paid';
+};
+export type NewestInvoiceOutput = {
+  customer_id: string;
+  amount: number;
+  date: string;
+  status: 'pending' | 'paid';
+};
+
 export type Revenue = {
   month: string;
   revenue: number;
