@@ -3,14 +3,14 @@ import { Suspense } from 'react';
 import CardWrapper from '@/app/ui/dashboard/cards';
 import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
-import CustomerInvoice from '@/app/ui/dashboard/customer-invoice';
+// import CustomerInvoice from '@/app/ui/dashboard/customer-invoice';
 import { lusitana } from '@/app/ui/fonts';
 import {
   RevenueChartSkeleton,
   LatestInvoicesSkeleton,
   CardsSkeleton,
 } from '@/app/ui/skeletons';
-import InvoiceSummary from '@/app/ui/dashboard/invoices-summary';
+// import InvoiceSummary from '@/app/ui/dashboard/invoices-summary';
 
 export default async function Page() {
   return (
@@ -18,8 +18,8 @@ export default async function Page() {
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Dashboard
       </h1>
-      <CustomerInvoice />
-      <InvoiceSummary />
+      {/* <CustomerInvoice /> */}
+      {/* <InvoiceSummary /> */}
       <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />

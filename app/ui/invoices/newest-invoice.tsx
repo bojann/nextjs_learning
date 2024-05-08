@@ -1,13 +1,14 @@
 'use client';
 
 import { formatDateToLocal } from '@/app/lib/utils';
-import { useInvoiceStore } from '@/app/providers/invoice-store-provider';
 import { lusitana } from '@/app/ui/fonts';
+import { newestInvoiceAtom } from '@/stores/invoice';
+import { useAtom } from 'jotai';
 
 export default function NewestInvoice() {
-  const invoice = useInvoiceStore((state) => state.newestInvoice);
+  const [invoice] = useAtom(newestInvoiceAtom);
+
   const { amount, date, status } = invoice;
-  console.log('invoice', invoice);
 
   if (!invoice.date) {
     return null;

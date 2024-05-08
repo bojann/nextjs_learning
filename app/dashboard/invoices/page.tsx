@@ -7,8 +7,8 @@ import { LastInvoiceSkeleton, InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
 import { Metadata } from 'next';
-import CustomerInvoice from '@/app/ui/dashboard/customer-invoice';
-import InvoiceSummary from '@/app/ui/dashboard/invoices-summary';
+// import CustomerInvoice from '@/app/ui/dashboard/customer-invoice';
+// import InvoiceSummary from '@/app/ui/dashboard/invoices-summary';
 import NewestInvoice from '@/app/ui/invoices/newest-invoice';
 
 export const metadata: Metadata = {
@@ -38,10 +38,10 @@ export default async function Page({
         <CreateInvoice />
       </div>
       <NewestInvoice />
-      <Suspense fallback={<LastInvoiceSkeleton />}>
-        <CustomerInvoice />
-      </Suspense>
-      <InvoiceSummary />
+      {/* <Suspense fallback={<LastInvoiceSkeleton />}> */}
+      {/* <CustomerInvoice /> */}
+      {/* </Suspense> */}
+      {/* <InvoiceSummary /> */}
       <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>

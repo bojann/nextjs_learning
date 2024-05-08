@@ -1,8 +1,9 @@
-import '@/app/ui/global.css';
 import { inter } from '@/app/ui/fonts';
-import { InvoiceStoreProvider } from '@/app/providers/invoice-store-provider';
 
+import { Provider } from 'jotai';
 import { Metadata } from 'next';
+
+import '@/app/ui/global.css';
 
 export const metadata: Metadata = {
   title: {
@@ -21,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        <InvoiceStoreProvider>{children}</InvoiceStoreProvider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

@@ -28,12 +28,13 @@ export type Invoice = {
 
 export type NewestInvoiceInput = {
   customer_id: string;
-  amount: number;
+  amount: string;
   status: 'pending' | 'paid';
+  date: string;
 };
 export type NewestInvoiceOutput = {
   customer_id: string;
-  amount: number;
+  amount: string;
   date: string;
   status: 'pending' | 'paid';
 };
