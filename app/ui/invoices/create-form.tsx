@@ -1,6 +1,10 @@
 'use client';
 
-import { CustomerField } from '@/app/lib/definitions';
+import {
+  CustomerField,
+  NewestInvoiceInput,
+  NewestInvoiceOutput,
+} from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
   CheckIcon,
@@ -9,25 +13,40 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import trpc from '@/app/_trpc/client';
-import { useSetAtom } from 'jotai';
-import { SyntheticEvent, useState } from 'react';
+import { useState } from 'react';
+import {
+  InvoiceContextT,
+  initialState,
+  useInvoiceContext,
+} from '@/app/context/invoice-ctx';
+import { createInvoice } from '@/app/lib/actions';
+import { useRouter } from 'next/navigation';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
-  const initialState = { message: null, error: {} };
+  const initialFormeState = { message: null, error: {} };
+  const { setInvoice } = useInvoiceContext();
 
-  const createInvoiceAtom = trpc.createInvoice.atomWithMutation();
-  const creatInvoice = useSetAtom(createInvoiceAtom);
-  const [formData, setFormData] = useState(null);
+  // const [formData, setFormData] = useState<NewestInvoiceOutput>(initialState);
 
-  const handleOnSubmit = (ev: SyntheticEvent) => {
-    ev.preventDefault();
+  const router = useRouter();
+  const handleActionOnSubmit = (formData: FormData) => {
+    const formInputs = Object.fromEntries(formData.entries());
 
-    formData && creatInvoice([formData]);
+    const selectedCustomer = customers.find(
+      (customer) => customer.id === formInputs.customer_id,
+    ) as CustomerField;
+
+    setInvoice({
+      ...formInputs,
+      name: selectedCustomer.name,
+      date: new Date().toISOString().split('T')[0],
+    } as NewestInvoiceInput);
+
+    createInvoice(initialFormeState, formData);
   };
 
   return (
-    <form onSubmit={handleOnSubmit}>
+    <form action={handleActionOnSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -41,9 +60,12 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue=""
               aria-describedby="customer-error"
-              onChange={(e) => {
-                setFormData((prev) => ({ ...prev, customer: e.target.value }));
-              }}
+              // onChange={(e) => {
+              //   setFormData((prev) => ({
+              //     ...prev,
+              //     customer_id: e.target.value,
+              //   }));
+              // }}
             >
               <option value="" disabled>
                 Select a customer
@@ -81,12 +103,12 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 placeholder="Enter USD amount"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="amount-error"
-                onChange={(e) => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    amount: e.target.value,
-                  }));
-                }}
+                // onChange={(e) => {
+                //   setFormData((prev) => ({
+                //     ...prev,
+                //     amount: e.target.value,
+                //   }));
+                // }}
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -116,12 +138,12 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                   value="pending"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                   aria-labelledby="invoice-status-error"
-                  onChange={(e) => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      status: 'pending',
-                    }));
-                  }}
+                  // onChange={(e) => {
+                  //   setFormData((prev) => ({
+                  //     ...prev,
+                  //     status: 'pending',
+                  //   }));
+                  // }}
                 />
                 <label
                   htmlFor="pending"
@@ -138,12 +160,12 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                   value="paid"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                   aria-labelledby="invoice-status-error"
-                  onChange={(e) => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      status: 'paid',
-                    }));
-                  }}
+                  // onChange={(e) => {
+                  //   setFormData((prev) => ({
+                  //     ...prev,
+                  //     status: 'paid',
+                  //   }));
+                  // }}
                 />
                 <label
                   htmlFor="paid"

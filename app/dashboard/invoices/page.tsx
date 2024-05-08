@@ -7,9 +7,11 @@ import { LastInvoiceSkeleton, InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
 import { Metadata } from 'next';
-// import CustomerInvoice from '@/app/ui/dashboard/customer-invoice';
+import CustomerInvoice from '@/app/ui/dashboard/customer-invoice';
 // import InvoiceSummary from '@/app/ui/dashboard/invoices-summary';
 import NewestInvoice from '@/app/ui/invoices/newest-invoice';
+import InvoiceContextProvider from '@/app/context/invoice-ctx';
+import router from 'next/router';
 
 export const metadata: Metadata = {
   title: 'Invoices',
@@ -33,13 +35,15 @@ export default async function Page({
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1>
       </div>
+      {/* <InvoiceContextProvider> */}
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search invoices..." />
         <CreateInvoice />
       </div>
       <NewestInvoice />
       {/* <Suspense fallback={<LastInvoiceSkeleton />}> */}
-      {/* <CustomerInvoice /> */}
+      <CustomerInvoice />
+      {/* </InvoiceContextProvider> */}
       {/* </Suspense> */}
       {/* <InvoiceSummary /> */}
       <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>

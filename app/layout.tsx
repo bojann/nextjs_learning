@@ -1,9 +1,10 @@
 import { inter } from '@/app/ui/fonts';
 
-import { Provider } from 'jotai';
+import Provider from '@/app/_trpc/provider';
 import { Metadata } from 'next';
 
 import '@/app/ui/global.css';
+import InvoiceContextProvider from '@/app/context/invoice-ctx';
 
 export const metadata: Metadata = {
   title: {
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        <Provider>{children}</Provider>
+        <Provider>
+          <InvoiceContextProvider>{children}</InvoiceContextProvider>
+        </Provider>
       </body>
     </html>
   );

@@ -64,41 +64,38 @@ export async function authenticate(
   }
 }
 
-// export async function createInvoice(prevState: State, formData: FormData) {
-//   const validatedFields = CreateInvoice.safeParse({
-//     customer_id: formData.get('customer_id'),
-//     amount: formData.get('amount'),
-//     status: formData.get('status'),
-//   });
-//   //   const { customer_id, amount, status } = CreateInvoice.parse(
-//   //     Object.formEntries(formData.entries()),
-//   //   );
-//   if (!validatedFields.success) {
-//     return {
-//       errors: validatedFields.error.flatten().fieldErrors,
-//       message: 'Missing Fields. Failed to Create Invoice.',
-//     };
-//   }
+export async function createInvoice(prevState: State, formData: FormData) {
+  const validatedFields = CreateInvoice.safeParse({
+    customer_id: formData.get('customer_id'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
 
-//   const { customer_id, amount, status } = validatedFields.data;
-//   const amountInCents = amount * 100;
-//   const date = new Date().toISOString().split('T')[0];
+  const { customer_id, amount, status } = validatedFields.data;
+  const amountInCents = amount * 100;
+  const date = new Date().toISOString().split('T')[0];
 
-//   try {
-//     await sql`
-//         INSERT INTO invoices (customer_id, amount, status, date)
-//         VALUES (${customer_id}, ${amountInCents}, ${status}, ${date})
-//     `;
-//   } catch (error) {
-//     console.error('Create Invoice error', error);
-//     return {
-//       message: 'Database Error: Failed to Create Invoice.',
-//     };
-//   }
+  try {
+    await sql`
+        INSERT INTO invoices (customer_id, amount, status, date)
+        VALUES (${customer_id}, ${amountInCents}, ${status}, ${date})
+    `;
+  } catch (error) {
+    console.error('Create Invoice error', error);
+    return {
+      message: 'Database Error: Failed to Create Invoice.',
+    };
+  }
 
-//   revalidatePath('/dashboard/invoices');
-//   redirect('/dashboard/invoices');
-// }
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
+}
 
 export async function updateInvoice(id: string, formData: FormData) {
   const { amount, customer_id, status } = UpdateInvoice.parse({

@@ -6,9 +6,6 @@ import {
   NewestInvoiceInput,
   NewestInvoiceOutput,
 } from '@/app/lib/definitions';
-import { Getter, Setter, atom, useAtom } from 'jotai';
-// import { createStore } from 'zustand';
-// import { devtools, persist } from 'zustand/middleware';
 
 type State = {
   lastInvoice: LatestInvoice;
@@ -50,11 +47,3 @@ export const defaultInitState: State = {
     status: 'pending',
   },
 };
-
-export const lastInvoice = atom<LatestInvoice>(defaultInitState.lastInvoice);
-export const customerInvoices = atom<InvoicesTable[]>(
-  defaultInitState.customerInvoices,
-);
-export const newestInvoiceAtom = atom<NewestInvoiceInput>(
-  defaultInitState.newestInvoice,
-);
